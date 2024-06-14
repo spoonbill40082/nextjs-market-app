@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id               String          @id @default(cuid())
+  name             String?
+  hashedPassword   String?
+  email            String          @unique
+  emailVerified    DateTime?
+  image            String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  userType         UserType        @default(User)
+  favoriteIds      String[]
+  accounts         Account[]
+  Authenticator    Authenticator[]
+  receivedMessages Message[]       @relation("receiver")
+  sendMessages     Message[]       @relation("sender")
+  Message          Message[]
+  product          Product[]
+  sessions         Session[]
+  consversations   Conversation[]  @relation("ConversationToUser")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Authenticator {
+  id                   String  @id @default(cuid())
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  imageSrc    String
+  category    String
+  userId      String
+  price       Int
+  latitude    Float
+  longitude   Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id         String    @id @default(cuid())
+  name       String?
+  senderId   String
+  createdAt  DateTime  @default(now())
+  receiverId String
+  messages   Message[]
+  users      User[]    @relation("ConversationToUser")
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  text           String?
+  image          String?
+  senderId       String
+  receiverId     String
+  userId         String?
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  receiver       User         @relation("receiver", fields: [receiverId], references: [id])
+  sender         User         @relation("sender", fields: [senderId], references: [id])
+  User           User?        @relation(fields: [userId], references: [id])
+}
+
+enum UserType {
+  User
+  Admin
+}
