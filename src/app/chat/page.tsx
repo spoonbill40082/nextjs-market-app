@@ -1,12 +1,10 @@
 import React from 'react'
-import ChatClient from './ChatClient'
 import getCurrentUser from '../actions/getCurrentUser'
-
-
+import ChatClient from './ChatClient'
 
 const ChatPage = async () => {
 
-  const currentUser = await getCurrentUser()
+  const currentUser = getCurrentUser()
 
   return (
     <ChatClient

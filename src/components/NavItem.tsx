@@ -13,8 +13,6 @@ const NavItem = ({mobile, currentUser}: NavItemProps) => {
   // ${} 안에 mobile일 때 적용 사항을 적어준다.
   // Limk를 이용하면 링크 경로와 폴더 이름을 맞추어 경로가 설정된다.
   
-
-  
   return (
     <ul className={`text-md justify-center flex gap-4 w-full items-center ${mobile && "flex-col h-full"}`}>
       <li className='py-2 text-center border-b-4 cursor-pointer'>

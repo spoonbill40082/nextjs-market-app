@@ -1,11 +1,10 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from "next-auth/next"
+import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import prisma from '@/helpers/prismadb'
-
 import { PrismaClient } from "@prisma/client"
+import { NextAuthOptions } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import prisma from '../../../helpers/prismadb'
 import bcrypt from 'bcryptjs'
 // import { type Adapter } from "@auth/core/adapters"
 
@@ -14,11 +13,11 @@ import bcrypt from 'bcryptjs'
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SEC!
     }),
-    CredentialsProvider({
+    Credentials({
       name: "Credentials",
       credentials: {
         email: { label: "이메일", type: "text", placeholder: "메일주소(아이디@google.com)" },
@@ -69,9 +68,11 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+
   session: {
     strategy: 'jwt'
   },
+
   jwt: {
     secret: process.env.JWT_SECRET,
     maxAge: 30 * 24 * 60 * 60 //30일
@@ -93,6 +94,5 @@ export const authOptions: NextAuthOptions = {
     }
   }
 }
-
 
 export default NextAuth(authOptions)

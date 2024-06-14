@@ -3,10 +3,10 @@
 import { getToken } from "next-auth/jwt"
 import { NextRequest, NextResponse } from "next/server"
 
-
 export { default } from "next-auth/middleware"
 
-export const config = { matcher: ["/admin/:path*", "/user"] }
+
+// export const config = { matcher: ["/admin/:path*", "/user"] }
 // 로그인이 된 사람만 admin과 user 경로에 접근해 페이지를 볼 수 있다.
 // 예) export const config = { matcher: ["/dashboard"] } 로그인한 사람만 대시보드에 들어갈 수 있음.
 // admin 하위의 다른 페이지들에 대해서도 접근 설정을 하려면 admin 뒤에 /:path*를 붙여주면 된다.
@@ -24,7 +24,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // 어드민 유저만 접근 가능하게.
-  if (pathname.startsWith('/admin') && (session?.role !== 'admin')) {
+  if (pathname.startsWith('/admin') && (session?.role !== 'Admin')) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 

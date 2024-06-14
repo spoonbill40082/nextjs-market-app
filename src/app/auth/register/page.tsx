@@ -10,9 +10,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false)
-
   const router = useRouter()
-
   const { register, handleSubmit, formState: {
     errors
   }} = useForm<FieldValues>({
@@ -30,7 +28,7 @@ const RegisterPage = () => {
       console.log('data', data)
       router.push('/auth/signin')
     } catch (error) {
-      console.log(error)
+      console.log('error', error)
     } finally {
       setIsLoading(false)
     }
@@ -73,8 +71,8 @@ const RegisterPage = () => {
         />
         <div className='text-center'>
           <p className='text-gray-400'>
-            Already a member?{" 👉 "}
-            <Link href='/auth/signin' className='text-black hover:underline font-semibold'>
+            Already a member?{"  "}
+            <Link href='/auth/signin' className='text-black hover:underline'>
               SIGN IN
             </Link>
           </p>

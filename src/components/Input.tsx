@@ -2,13 +2,13 @@ import React from 'react'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 
 interface InpustProps {
-  id: string;
-  label: string;
-  type?: string;
-  disabled?: boolean;
-  formatPrice?: boolean;
-  required?: boolean;
-  register: UseFormRegister<FieldValues>;
+  id: string,
+  label: string,
+  type?: string,
+  disabled?: boolean,
+  formatPrice?: boolean,
+  required?: boolean,
+  register: UseFormRegister<FieldValues>,
   errors: FieldErrors
 }
 

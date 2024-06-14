@@ -6,14 +6,13 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 
 const SigninPage = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-
-  const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
-    defaultValues: {
+  const [isLoading, setIsLoading] = useState(false)  
+  const { register, handleSubmit, formState: {
+    errors
+  }} = useForm<FieldValues>({
+    defaultValues: {      
       email: '',
       password: ''
     }
@@ -22,17 +21,8 @@ const SigninPage = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (body) => {
     setIsLoading(true)
     try {
-      const result = await signIn('credentials', {
-        redirect: false,  // Disable automatic redirection
-        ...body
-      })
-
-      if (result?.error) {
-        console.log('error', result.error)
-      } else {
-        console.log('Sign-in successful', result)
-        router.push('/user')  // Redirect to the user page on successful sign-in
-      }
+      const data = signIn('credentials', body)
+      console.log('data', data)      
     } catch (error) {
       console.log('error', error)
     } finally {
@@ -66,7 +56,6 @@ const SigninPage = () => {
         />
         <Button
           label='Sign In'
-          disabled={isLoading}
         />
         <div className='text-center'>
           <p className='text-gray-400'>

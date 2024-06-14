@@ -74,8 +74,9 @@ const setCustomValue = (id: string, value: any) => {
   return (
     <Container>
 
-      <div className='max-w-screen-lg mx-auto'>
-        
+      <div
+      className='max-w-screen-lg mx-auto'
+      >
         <form
         className='flex flex-col gap-8'
         onSubmit={handleSubmit(onSubmit)}
@@ -101,7 +102,6 @@ const setCustomValue = (id: string, value: any) => {
             required        
           />
           <hr />
-
           <Input 
             id='description'
             label='Description'
@@ -111,7 +111,6 @@ const setCustomValue = (id: string, value: any) => {
             required        
           />
           <hr />
-
           <Input 
             id='price'
             label='Price'

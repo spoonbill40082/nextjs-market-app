@@ -3,11 +3,11 @@ import getProducts, { ProductsParams } from "../actions/getProducts";
 import Container from "@/components/Container";
 import EmptyState from "@/components/EmptyState";
 import ProductCard from "@/components/products/ProductCard";
+import getCurrentUser from "../actions/getCurrentUser";
 import FloatingButton from "@/components/FloatingButton";
 import Categories from "@/components/categories/Categories";
 import Pagination from "@/components/Pagination";
 import { PRODUCTS_PER_PAGE } from "@/constants";
-import getCurrentUser from "../actions/getCurrentUser";
 
 interface HomeProps {
   searchParams: ProductsParams

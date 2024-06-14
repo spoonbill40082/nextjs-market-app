@@ -1,3 +1,4 @@
+// 넥스트js의 기본 컴포넌트는 서버 컴포넌트이기 때문에 클라이언트 컴포넌트로 바꿔줘야 한다. 'use client' 작성!
 'use client'
 
 import Link from 'next/link'
@@ -5,11 +6,11 @@ import React, { useState } from 'react'
 import NavItem from './NavItem'
 import { User } from '@prisma/client'
 
-interface NavbarProps{
+interface NavBarProps {
   currentUser?: User | null
 }
 
-const Navbar = ({currentUser}: NavbarProps) => {
+const NavBar = ({currentUser}: NavBarProps) => {
 
   // nav bar를 접거나 펼칠 때의 상태 관리를 위해 useState 사용
   const [menu, setMenu] = useState(false)
@@ -19,6 +20,7 @@ const Navbar = ({currentUser}: NavbarProps) => {
   const handleMneu = () => {
     setMenu(!menu)
   }
+
   
   // text-2xl: 텍스트 크기를 2xl로 설정하는 클래스입니다. 이는 보통 큰 텍스트를 나타내는데 사용됩니다.
   // sm:hidden: 화면 크기가 작은(sm) 경우에는 해당 요소를 숨기는 클래스입니다. 일반적으로 모바일 화면 크기에서 사용됩니다.
@@ -29,29 +31,24 @@ const Navbar = ({currentUser}: NavbarProps) => {
     <nav className='relative z-10 w-full bg-orange-500 text-white'>
       <div className='flex items-center justify-between mx-5 sm:mx-10 lg:mx-20'>
         <div className='flex items-center text-2xl h-14'>
-          <Link href='/'>Logo</Link>
+          <Link href='/'>LOGO</Link>
         </div>
-
         <div className='text-2xl sm:hidden'>
-          {
-            menu === false? 
+          {menu === false? 
             <button onClick={handleMneu}>+</button>: 
-            <button onClick={handleMneu}>-</button>
-          }
+            <button onClick={handleMneu}>-</button>}
         </div>
-
         <div className='hidden sm:block'>
           <NavItem currentUser={currentUser}/>
         </div>
 
       </div>
-      
       <div className='block sm:hidden'>
         {/* 똑같은 NavItem이지만 뷰포트 너비에 따라 다르게 적용할 수 있도록 mobile이라는 이름을 통해 분기점을 만들고 NavItem에 props로 내려준다. */}
-        {(menu === false)? null: <NavItem mobile currentUser={currentUser}/>}
+        {menu === false? null: <NavItem mobile currentUser={currentUser}/>}
       </div>
     </nav>
   )
 }
 
-export default Navbar
+export default NavBar
